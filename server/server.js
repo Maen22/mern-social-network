@@ -1,8 +1,10 @@
 import express from "express";
+import bodyParser from "body-parser";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import helmet from "helmet";
 import compress from "compression";
+import morgan from "morgan";
 import userRoutes from "./routes/user.routes.js";
 import authRoutes from "./routes/auth.routes.js";
 import mongoose from "mongoose";
@@ -20,10 +22,13 @@ mongoose.connection.on("error", () => {
 
 const app = express();
 
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(compress());
 app.use(helmet());
 app.use(cors());
+app.use(morgan("combined"));
 
 app.use("/", userRoutes);
 app.use("/", authRoutes);
