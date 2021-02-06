@@ -27,3 +27,5 @@ const clearJWT = (cb) => {
     });
   }
 };
+
+export { authenticate, isAuthenticated, clearJWT };
