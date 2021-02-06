@@ -18,7 +18,7 @@ const list = async (signal) => {
   try {
     let response = await fetch("/api/users", {
       method: "GET",
-      signal: signal,
+      signal,
     });
     return await response.json();
   } catch (err) {
