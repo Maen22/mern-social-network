@@ -1,15 +1,15 @@
 import { useState, useEffect } from "react";
 import { list } from "./api-user";
 import { makeStyles } from "@material-ui/core/styles";
-import Paper from "@material-ui/core/Paper";
-import Typography from "@material-ui/core/Typography";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemAvatar from "@material-ui/core/ListItemAvatar";
-import Avatar from "@material-ui/core/Avatar";
-import Person from "@material-ui/core/Person";
 import { Link } from "react-router-dom";
 import {
+  Paper,
+  Typography,
+  List,
+  ListItem,
+  ListItemAvatar,
+  Avatar,
+  Person,
   IconButton,
   ListItemSecondaryAction,
   ListItemText,
