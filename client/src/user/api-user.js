@@ -1,6 +1,6 @@
 const create = async (user) => {
   try {
-    let response = await fetch("/api/users", {
+    let response = await fetch("http://localhost:3001/api/users", {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -16,7 +16,7 @@ const create = async (user) => {
 
 const list = async (signal) => {
   try {
-    let response = await fetch("/api/users", {
+    let response = await fetch("http://localhost:3001/api/users", {
       method: "GET",
       signal,
     });
@@ -28,15 +28,18 @@ const list = async (signal) => {
 
 const read = async (params, credentials, signal) => {
   try {
-    let response = await fetch("api/users/" + params.userId, {
-      method: "GET",
-      signal,
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + credentials.t,
-      },
-    });
+    let response = await fetch(
+      "http://localhost:3001/api/users/" + params.userId,
+      {
+        method: "GET",
+        signal,
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + credentials.t,
+        },
+      }
+    );
     return await response.json();
   } catch (err) {
     console.log(err);
@@ -45,15 +48,18 @@ const read = async (params, credentials, signal) => {
 
 const update = async (params, credentials, user) => {
   try {
-    let response = await fetch("api/users/" + params.userId, {
-      method: "PUT",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + credentials.t,
-      },
-      body: JSON.stringify(user),
-    });
+    let response = await fetch(
+      "http://localhost:3001/api/users/" + params.userId,
+      {
+        method: "PUT",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + credentials.t,
+        },
+        body: JSON.stringify(user),
+      }
+    );
     return await response.json();
   } catch (err) {
     console.log(err);
@@ -62,14 +68,17 @@ const update = async (params, credentials, user) => {
 
 const remove = async (params, credentials) => {
   try {
-    let response = await fetch("/api/users" + params.userId, {
-      method: "DELETE",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + credentials.t,
-      },
-    });
+    let response = await fetch(
+      "http://localhost:3001//api/users" + params.userId,
+      {
+        method: "DELETE",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + credentials.t,
+        },
+      }
+    );
     return await response.json();
   } catch (err) {
     console.log(err);

@@ -9,12 +9,11 @@ import {
   ListItem,
   ListItemAvatar,
   Avatar,
-  Person,
   IconButton,
   ListItemSecondaryAction,
   ListItemText,
 } from "@material-ui/core";
-import { ArrowForward } from "@material-ui/icons";
+import { Person, ArrowForward } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
   root: theme.mixins.gutters({
@@ -35,17 +34,16 @@ const Users = () => {
     const abortController = new AbortController();
     const signal = abortController.signal;
 
-    const fetchUsers = async (signal) => {
-      let data = await list(signal);
-      return data;
-    };
-
-    let data = fetchUsers(signal);
-    if (data && data.error) {
-      console.log(data.error);
-    } else {
-      setUsers(data);
-    }
+    list(signal)
+      .then((data) => {
+        console.log(data);
+        if (data && data.error) {
+          console.log(data.error);
+        } else {
+          setUsers(data);
+        }
+      })
+      .catch((err) => console.log(err));
   }, []);
 
   return (

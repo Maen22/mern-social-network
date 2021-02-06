@@ -6,8 +6,8 @@ const MainRouter = () => {
   return (
     <div>
       <Switch>
-        <Route to="/" component={Home} exact />
-        <Route path="/users" component={Users} />
+        <Route path="/" component={Home} exact />
+        <Route path="/users" component={Users} exact />
       </Switch>
     </div>
   );
