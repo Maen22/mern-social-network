@@ -6,8 +6,11 @@ const secretKey = "veryverysecret";
 
 const signin = async (req, res) => {
   try {
-    let user = await User.find({ email: req.body.email });
+    console.log(req.body);
+    let user = await User.findOne({ email: req.body.email });
+    console.log(user);
     if (!user) {
+      console.log("error!!!!");
       return res.status(401).json({
         error: "User not found",
       });
@@ -18,10 +21,7 @@ const signin = async (req, res) => {
         error: "Email and password don't match.",
       });
     }
-
-    const token = jwt.sign({ _id: user._id }, secretKey, {
-      algorithm: "RS256",
-    });
+    const token = jwt.sign({ _id: user._id }, secretKey);
 
     res.cookie("t", token, { expire: new Date() + 9999 });
 
@@ -50,7 +50,7 @@ const signout = (req, res) => {
 const requireSignin = expressJwt({
   secret: secretKey,
   userProperty: "auth",
-  algorithms: ["RS256"],
+  algorithms: ["HS256"],
 });
 
 const hasAuthorization = (req, res, next) => {

@@ -1,4 +1,4 @@
-import { authinticate } from "./auth-hepler";
+import { authenticate } from "./auth-hepler";
 import { signin } from "./api-auth";
 import { useState } from "react";
 import { Redirect } from "react-router-dom";
@@ -58,11 +58,13 @@ const Signin = (props) => {
       email: values.email || undefined,
       password: values.password || undefined,
     };
+
+    console.log(user);
     signin(user).then((data) => {
       if (data.error) {
         setValues({ ...values, error: data.error });
       } else {
-        authinticate(data, () => {
+        authenticate(data, () => {
           setValues({ ...values, error: "", redirectToReferrer: true });
         });
       }

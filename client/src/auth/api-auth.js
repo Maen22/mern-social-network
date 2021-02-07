@@ -1,13 +1,12 @@
 const signin = async (user) => {
   try {
-    let response = await fetch("/auth/signin/", {
+    let response = await fetch("http://localhost:3001/auth/signin", {
       method: "POST",
       headers: {
-        Accept: "application/json",
         "Content-Type": "application/json",
       },
-      credentials: "include",
       body: JSON.stringify(user),
+      credentials: "include",
     });
 
     return await response.json();

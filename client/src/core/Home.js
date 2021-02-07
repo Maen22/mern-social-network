@@ -30,6 +30,7 @@ const Home = () => {
     <>
       <Link to="/users">Users</Link>
       <Link to="/signup">Sign Up</Link>
+      <Link to="/signin">Sign in</Link>
       <Card className={classes.card}>
         <Typography variant="h6" className={classes.title}>
           Home Page
