@@ -14,7 +14,7 @@ import {
   DialogContentText,
   DialogTitle,
 } from "@material-ui/core";
-import { makeStyles } from "@materia-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
@@ -27,6 +27,11 @@ const useStyles = makeStyles((theme) => ({
   },
   error: {
     verticalAlign: "middle",
+    marginBottom: theme.spacing(0.5),
+    marginRight: theme.spacing(1),
+  },
+  errorText: {
+    marginTop: theme.spacing(1),
   },
   title: {
     marginTop: theme.spacing(2),
@@ -112,7 +117,10 @@ const Signup = () => {
           />
           <br />
           {values.error && (
-            <Typography component="p" color="error">
+            <Typography
+              component="p"
+              color="error"
+              className={classes.errorText}>
               <Icon color="error" className={classes.error}>
                 error
               </Icon>
