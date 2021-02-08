@@ -52,7 +52,8 @@ const Profile = ({ match }) => {
     return function cleanup() {
       abortController.abort();
     };
-  }, [match.params, match.params.userId]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [match.params.userId]);
 
   if (redirectToSignin) {
     return <Redirect to="/signin" />;
