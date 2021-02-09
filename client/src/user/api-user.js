@@ -69,7 +69,7 @@ const update = async (params, credentials, user) => {
 const remove = async (params, credentials) => {
   try {
     let response = await fetch(
-      "http://localhost:3001//api/users" + params.userId,
+      "http://localhost:3001/api/users" + params.userId,
       {
         method: "DELETE",
         headers: {

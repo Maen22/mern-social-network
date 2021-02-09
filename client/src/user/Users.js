@@ -36,7 +36,6 @@ const Users = () => {
 
     list(signal)
       .then((data) => {
-        console.log(data);
         if (data && data.error) {
           console.log(data.error);
         } else {
