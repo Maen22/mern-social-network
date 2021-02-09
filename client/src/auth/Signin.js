@@ -13,6 +13,8 @@ import {
   Icon,
 } from "@material-ui/core";
 
+import { isAuthenticated } from "../auth/auth-hepler";
+
 const useStyles = makeStyles((theme) => ({
   card: {
     maxWidth: 600,
@@ -77,6 +79,10 @@ const Signin = (props) => {
   };
 
   const { redirectToReferrer } = values;
+
+  if (isAuthenticated()) {
+    return <Redirect to="/" />;
+  }
 
   if (redirectToReferrer) {
     return <Redirect to={from} />;

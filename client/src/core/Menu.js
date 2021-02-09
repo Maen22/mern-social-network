@@ -10,7 +10,7 @@ import HomeIcon from "@material-ui/icons/Home";
 import { isAuthenticated, clearJWT } from "../auth/auth-hepler";
 
 const isActive = (history, path) => {
-  if (history.location.pathname == path) {
+  if (history.location.pathname === path) {
     return { color: "#ff4081" };
   } else {
     return { color: "#fff" };
