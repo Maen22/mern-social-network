@@ -1,11 +1,11 @@
 import { Route, Redirect } from "react-router-dom";
-import authHelper from "./auth-hepler";
+import { isAuthenticated } from "./auth-hepler";
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route
     {...rest}
     render={(props) =>
-      authHelper.isAuthenticated() ? (
+      isAuthenticated() ? (
         <Component {...props} />
       ) : (
         <Redirect

@@ -13,7 +13,7 @@ import {
   DialogContentText,
   DialogTitle,
 } from "@material-ui/core";
-import DeleteIcon from "@material-ui/icons";
+import DeleteIcon from "@material-ui/icons/Delete";
 
 const DeleteUser = ({ userId }) => {
   const [open, setOpen] = useState(false);
