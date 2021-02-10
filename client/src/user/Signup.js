@@ -134,7 +134,7 @@ const Signup = () => {
             color="primary"
             variant="contained"
             onClick={clickSumbit}
-            className={classes.sumbit}>
+            className={classes.submit}>
             Submit
           </Button>
         </CardActions>
