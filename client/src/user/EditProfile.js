@@ -50,6 +50,7 @@ const EditProfile = ({ match }) => {
   const [values, setValues] = useState({
     name: "",
     email: "",
+    about: "",
     password: "",
     error: "",
     redirectToProfile: false,
@@ -111,6 +112,17 @@ const EditProfile = ({ match }) => {
           value={values.name}
           className={classes.TextField}
           onChange={handleChange("name")}
+          margin="normal"
+        />
+        <br />
+        <TextField
+          id="multiline-flexible"
+          label="About"
+          multiline
+          rows="2"
+          value={values.email}
+          className={classes.TextField}
+          onChange={handleChange("about")}
           margin="normal"
         />
         <br />

@@ -24,6 +24,10 @@ const UserSchema = mongoose.Schema({
     required: "Password is required",
   },
   salt: String,
+  about: {
+    type: string,
+    trim: true,
+  },
 });
 
 UserSchema.virtual("password")
