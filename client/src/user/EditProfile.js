@@ -42,6 +42,9 @@ const useStyles = makeStyles((theme) => ({
     margin: "auto",
     marginBottom: theme.spacing(2),
   },
+  filename: {
+    marginLeft: "10px",
+  },
 }));
 
 const EditProfile = ({ match }) => {
@@ -51,6 +54,7 @@ const EditProfile = ({ match }) => {
     name: "",
     email: "",
     about: "",
+    photo: "",
     password: "",
     error: "",
     redirectToProfile: false,
@@ -84,6 +88,7 @@ const EditProfile = ({ match }) => {
     const user = {
       name: values.name || undefined,
       about: values.about || undefined,
+      photo: values.photo || undefined,
       email: values.email || undefined,
       password: values.password || undefined,
     };
@@ -107,6 +112,21 @@ const EditProfile = ({ match }) => {
         <Typography variant="h6" className={classes.title}>
           Edit Profile
         </Typography>
+        <input
+          accept="image/*"
+          type="file"
+          onChange={handleChange("photo")}
+          style={{ dispaly: "none" }}
+          id="icon-button-file"
+        />
+        <label htmlFor="icon-button-file">
+          <Button variant="contained" color="default" component="span">
+            Upload <FileUpload />
+          </Button>
+        </label>
+        <span className={classes.filename}>
+          {values.photo ? values.photo.name : ""}
+        </span>
         <TextField
           id="name"
           label="Name"
