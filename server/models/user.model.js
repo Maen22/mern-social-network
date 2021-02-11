@@ -25,7 +25,7 @@ const UserSchema = mongoose.Schema({
   },
   salt: String,
   about: {
-    type: string,
+    type: String,
     trim: true,
   },
 });

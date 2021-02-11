@@ -83,6 +83,7 @@ const EditProfile = ({ match }) => {
   const clickSubmit = () => {
     const user = {
       name: values.name || undefined,
+      about: values.about || undefined,
       email: values.email || undefined,
       password: values.password || undefined,
     };
@@ -120,7 +121,7 @@ const EditProfile = ({ match }) => {
           label="About"
           multiline
           rows="2"
-          value={values.email}
+          value={values.about}
           className={classes.TextField}
           onChange={handleChange("about")}
           margin="normal"
