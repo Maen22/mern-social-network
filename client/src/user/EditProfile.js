@@ -81,19 +81,20 @@ const EditProfile = ({ match }) => {
   }, [match.params.userId]);
 
   const handleChange = (name) => (event) => {
-    setValues({ ...values, [name]: event.target.value });
+    const value = name === "photo" ? event.target.files[0] : event.target.value;
+    setValues({ ...values, [name]: value });
   };
 
   const clickSubmit = () => {
-    const user = {
-      name: values.name || undefined,
-      about: values.about || undefined,
-      photo: values.photo || undefined,
-      email: values.email || undefined,
-      password: values.password || undefined,
-    };
+    const userData = new FormData();
 
-    update(match.params, jwt, user).then((data) => {
+    values.name && userData.append("name", values.name);
+    values.email && userData.append("email", values.email);
+    values.password && userData.append("password", values.password);
+    values.about && userData.append("about", values.about);
+    values.photo && userData.append("photo", values.photo);
+
+    update(match.params, jwt, userData).then((data) => {
       if (data && data.error) {
         setValues({ ...values, error: data.error });
       } else {
