@@ -12,6 +12,7 @@ import {
   TextField,
   Typography,
 } from "@material-ui/core";
+import FileUpload from "@material-ui/icons/AddPhotoAlternate";
 
 const useStyles = makeStyles((theme) => ({
   card: {
