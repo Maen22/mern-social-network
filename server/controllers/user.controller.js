@@ -1,6 +1,9 @@
 import User from "../models/user.model.js";
 import extend from "lodash/extend.js";
 import errorHandler from "../helpers/dbErrorHandler.js";
+import formidable from "formidable";
+import fs from "fs";
+import profileImage from "../../client/src/assests/images/profileImage.png";
 
 const create = async (req, res) => {
   const user = new User(req.body);
@@ -50,19 +53,34 @@ const read = (req, res) => {
   return res.status(200).json(req.profile);
 };
 const update = async (req, res) => {
-  try {
+  let form = new formidable.IncomingForm();
+  form.keepExtensions = true;
+  form.parse(req, async (err, fields, files) => {
+    if (err) {
+      return res.status(400).json({
+        error: "Photo could not be uploaded",
+      });
+    }
+
     let user = req.profile;
-    user = extend(user, req.body);
-    user.update = Date.now();
-    await user.save();
-    user.hashed_password = undefined;
-    user.salt = undefined;
-    return res.status(200).json(user);
-  } catch (err) {
-    return res.status(400).json({
-      error: errorHandler.getErrorMessage(err),
-    });
-  }
+    user = extend(user, fields);
+    user.updated = Date.now();
+    if (files.photo) {
+      user.photo.data = fs.readFileSync(files.photo.path);
+      user.photo.contentType = file.photo.type;
+    }
+
+    try {
+      await user.save();
+      user.hashed_password = undefined;
+      user.salt = undefined;
+      return res.status(200).json(user);
+    } catch (err) {
+      return res.status(400).json({
+        error: errorHandler.getErrorMessage(err),
+      });
+    }
+  });
 };
 const remove = async (req, res) => {
   try {
@@ -81,4 +99,25 @@ const remove = async (req, res) => {
   }
 };
 
-export default { list, userById, create, read, update, remove };
+const photo = (req, res, next) => {
+  if (req.profile.photo.data) {
+    res.set("Content-Type", req.profile.photo.contentType);
+    return res.send(req.profile.photo.data);
+  }
+  next();
+};
+
+const defaultPhoto = (req, res) => {
+  return res.sendFile(process.cwd() + profileImage);
+};
+
+export default {
+  list,
+  userById,
+  create,
+  read,
+  update,
+  remove,
+  photo,
+  defaultPhoto,
+};
