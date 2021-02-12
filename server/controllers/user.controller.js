@@ -110,11 +110,9 @@ const photo = (req, res, next) => {
 };
 
 const defaultPhoto = (req, res) => {
-  const imageLocation = path.join(
-    process.cwd(),
-    "../../client/src/assests/images/profileImage.png"
+  return res.sendFile(
+    "E:/Dev/MERN_STACK/social-network/client/src/assests/images/profile.png"
   );
-  return res.sendFile(imageLocation);
 };
 
 export default {

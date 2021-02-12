@@ -63,7 +63,9 @@ const Profile = ({ match }) => {
   }, [match.params.userId]);
 
   const photoUrl = values.user._id
-    ? `http://localhost:3001/api/users/photo/${values.user._id}`
+    ? `http://localhost:3001/api/users/photo/${
+        values.user._id
+      }?${new Date().getTime()}`
     : "http://localhost:3001/api/users/defaultphoto";
 
   console.log(photoUrl);
