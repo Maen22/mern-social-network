@@ -11,6 +11,7 @@ import {
   Icon,
   TextField,
   Typography,
+  Avatar,
 } from "@material-ui/core";
 import FileUpload from "@material-ui/icons/AddPhotoAlternate";
 
@@ -46,6 +47,11 @@ const useStyles = makeStyles((theme) => ({
   filename: {
     marginLeft: "10px",
   },
+  bigAvatar: {
+    width: 60,
+    height: 60,
+    margin: "auto",
+  },
 }));
 
 const EditProfile = ({ match }) => {
@@ -59,6 +65,7 @@ const EditProfile = ({ match }) => {
     password: "",
     error: "",
     redirectToProfile: false,
+    id: "",
   });
 
   const jwt = isAuthenticated();
@@ -71,7 +78,13 @@ const EditProfile = ({ match }) => {
       if (data && data.error) {
         setValues({ ...values, error: data.error });
       } else {
-        setValues({ ...values, name: data.name, email: data.email });
+        setValues({
+          ...values,
+          name: data.name,
+          email: data.email,
+          about: data.about,
+          id: data._id,
+        });
       }
     });
 
@@ -87,7 +100,7 @@ const EditProfile = ({ match }) => {
   };
 
   const clickSubmit = () => {
-    const userData = new FormData();
+    let userData = new FormData();
 
     values.name && userData.append("name", values.name);
     values.email && userData.append("email", values.email);
@@ -104,6 +117,12 @@ const EditProfile = ({ match }) => {
     });
   };
 
+  const photoUrl = values.id
+    ? `http://localhost:3001/api/users/photo/${
+        values.id
+      }?${new Date().getTime()}`
+    : "http://localhost:3001/api/users/defaultphoto";
+
   if (values.redirectToProfile) {
     return <Redirect to={"/user/" + values.userId} />;
   }
@@ -114,11 +133,13 @@ const EditProfile = ({ match }) => {
         <Typography variant="h6" className={classes.title}>
           Edit Profile
         </Typography>
+        <Avatar src={photoUrl} className={classes.bigAvatar} />
+        <br />
         <input
           accept="image/*"
           type="file"
           onChange={handleChange("photo")}
-          style={{ dispaly: "none" }}
+          style={{ display: "none" }}
           id="icon-button-file"
         />
         <label htmlFor="icon-button-file">
@@ -128,7 +149,8 @@ const EditProfile = ({ match }) => {
         </label>
         <span className={classes.filename}>
           {values.photo ? values.photo.name : ""}
-        </span>
+        </span>{" "}
+        <br />
         <TextField
           id="name"
           label="Name"
@@ -169,7 +191,6 @@ const EditProfile = ({ match }) => {
           margin="normal"
         />
         <br />
-
         {values.error && (
           <Typography component="p" color="error" className={classes.errorText}>
             <Icon color="error" className={classes.error}>

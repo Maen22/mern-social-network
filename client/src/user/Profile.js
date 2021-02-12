@@ -52,7 +52,6 @@ const Profile = ({ match }) => {
       if (data && data.error) {
         setValues({ ...values, redirectToSignin: true });
       } else {
-        console.log(data);
         setValues({ ...values, user: data });
       }
     });
@@ -64,8 +63,10 @@ const Profile = ({ match }) => {
   }, [match.params.userId]);
 
   const photoUrl = values.user._id
-    ? `/api/users/photo/${values.user._id}?${new Date().getTime()}`
-    : "/api/users/defaultphoto";
+    ? `http://localhost:3001/api/users/photo/${values.user._id}`
+    : "http://localhost:3001/api/users/defaultphoto";
+
+  console.log(photoUrl);
 
   if (values.redirectToSignin) {
     return <Redirect to="/signin" />;

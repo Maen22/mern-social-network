@@ -56,7 +56,7 @@ const update = async (params, credentials, user) => {
           Accept: "application/json",
           Authorization: "Bearer " + credentials.token,
         },
-        body: JSON.stringify(user),
+        body: user,
       }
     );
     return await response.json();

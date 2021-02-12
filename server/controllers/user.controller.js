@@ -3,7 +3,7 @@ import extend from "lodash/extend.js";
 import errorHandler from "../helpers/dbErrorHandler.js";
 import formidable from "formidable";
 import fs from "fs";
-import profileImage from "../../client/src/assests/images/profileImage.png";
+import path from "path";
 
 const create = async (req, res) => {
   const user = new User(req.body);
@@ -53,10 +53,12 @@ const read = (req, res) => {
   return res.status(200).json(req.profile);
 };
 const update = async (req, res) => {
-  let form = new formidable.IncomingForm();
-  form.keepExtensions = true;
+  let form = formidable({ multiples: true });
+
   form.parse(req, async (err, fields, files) => {
     if (err) {
+      console.log(err);
+
       return res.status(400).json({
         error: "Photo could not be uploaded",
       });
@@ -67,7 +69,7 @@ const update = async (req, res) => {
     user.updated = Date.now();
     if (files.photo) {
       user.photo.data = fs.readFileSync(files.photo.path);
-      user.photo.contentType = file.photo.type;
+      user.photo.contentType = files.photo.type;
     }
 
     try {
@@ -108,7 +110,11 @@ const photo = (req, res, next) => {
 };
 
 const defaultPhoto = (req, res) => {
-  return res.sendFile(process.cwd() + profileImage);
+  const imageLocation = path.join(
+    process.cwd(),
+    "../../client/src/assests/images/profileImage.png"
+  );
+  return res.sendFile(imageLocation);
 };
 
 export default {
