@@ -17,6 +17,7 @@ import {
 } from "@material-ui/core";
 import { Edit } from "@material-ui/icons";
 import DeleteUser from "./DeleteUser";
+import FollowButton from "./FollowButton";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -41,18 +42,22 @@ const Profile = ({ match }) => {
 
   const [values, setValues] = useState({
     user: {},
+    following: false,
     redirectToSignin: false,
   });
+
+  const jwt = isAuthenticated();
 
   useEffect(() => {
     const abortController = new AbortController();
     const signal = abortController.signal;
-    const jwt = isAuthenticated();
+
     read(match.params, jwt, signal).then((data) => {
       if (data && data.error) {
         setValues({ ...values, redirectToSignin: true });
       } else {
-        setValues({ ...values, user: data });
+        let following = checkFollow(data);
+        setValues({ ...values, user: data, following });
       }
     });
 
@@ -61,6 +66,23 @@ const Profile = ({ match }) => {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [match.params.userId]);
+
+  const checkFollow = (user) => {
+    const match = user.followers.some((follower) => {
+      return follower._id === jwt.user._id;
+    });
+    return match;
+  };
+
+  const clickFollowButton = (callApi) => {
+    callApi(match.params, jwt, values.user._id).then((data) => {
+      if (data.error) {
+        setValues({ ...values, error: data.error });
+      } else {
+        setValues({ ...values, user: data, following: !values.following });
+      }
+    });
+  };
 
   const photoUrl = values.user._id
     ? `http://localhost:3001/api/users/photo/${
@@ -89,16 +111,21 @@ const Profile = ({ match }) => {
             secondary={values.user.email}
           />
           {isAuthenticated().user &&
-            isAuthenticated().user._id === values.user._id && (
-              <ListItemSecondaryAction>
-                <Link to={"/user/edit/" + values.user._id}>
-                  <IconButton aria-label="Edit" color="primary">
-                    <Edit />
-                  </IconButton>
-                </Link>
-                <DeleteUser userId={values.user._id} />
-              </ListItemSecondaryAction>
-            )}
+          isAuthenticated().user._id === values.user._id ? (
+            <ListItemSecondaryAction>
+              <Link to={"/user/edit/" + values.user._id}>
+                <IconButton aria-label="Edit" color="primary">
+                  <Edit />
+                </IconButton>
+              </Link>
+              <DeleteUser userId={values.user._id} />
+            </ListItemSecondaryAction>
+          ) : (
+            <FollowButton
+              following={values.following}
+              onButtonClick={clickFollowButton}
+            />
+          )}
         </ListItem>
         <Divider />
         <ListItem>
