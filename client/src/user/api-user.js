@@ -84,4 +84,38 @@ const remove = async (params, credentials) => {
   }
 };
 
-export { create, list, read, update, remove };
+const follow = async (params, credentials, followId) => {
+  try {
+    let response = await fetch("http://localhost:3001/api/users/follow", {
+      method: "PUT",
+      header: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + credentials.token,
+      },
+      body: JSON.stringify({ userId: params.userId, followId }),
+    });
+    return await response.json();
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+const unfollow = async (params, credentials, unfollowId) => {
+  try {
+    let response = await fetch("http://localhost:3001/api/users/unfollow", {
+      method: "PUT",
+      header: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + credentials.token,
+      },
+      body: JSON.stringify({ userId: params.userId, unfollowId }),
+    });
+    return await response.json();
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export { create, list, read, update, remove, follow, unfollow };

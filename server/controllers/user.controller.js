@@ -3,7 +3,6 @@ import extend from "lodash/extend.js";
 import errorHandler from "../helpers/dbErrorHandler.js";
 import formidable from "formidable";
 import fs from "fs";
-import path from "path";
 
 const create = async (req, res) => {
   const user = new User(req.body);
@@ -201,4 +200,8 @@ export default {
   remove,
   photo,
   defaultPhoto,
+  addFollowing,
+  addFollower,
+  removeFollowing,
+  removeFollower,
 };
