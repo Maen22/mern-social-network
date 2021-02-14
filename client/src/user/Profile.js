@@ -18,6 +18,7 @@ import {
 import { Edit } from "@material-ui/icons";
 import DeleteUser from "./DeleteUser";
 import FollowButton from "./FollowButton";
+import FollowGrid from "./FollowGrid";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -97,47 +98,52 @@ const Profile = ({ match }) => {
   }
 
   return (
-    <Paper className={classes.root} elevation={4}>
-      <Typography variant="h6" className={classes.title}>
-        Profile
-      </Typography>
-      <List dense>
-        <ListItem>
-          <ListItemAvatar>
-            <Avatar src={photoUrl} className={classes.bigAvatar} />
-          </ListItemAvatar>
-          <ListItemText
-            primary={values.user.name}
-            secondary={values.user.email}
-          />
-          {isAuthenticated().user &&
-          isAuthenticated().user._id === values.user._id ? (
-            <ListItemSecondaryAction>
-              <Link to={"/user/edit/" + values.user._id}>
-                <IconButton aria-label="Edit" color="primary">
-                  <Edit />
-                </IconButton>
-              </Link>
-              <DeleteUser userId={values.user._id} />
-            </ListItemSecondaryAction>
-          ) : (
-            <FollowButton
-              following={values.following}
-              onButtonClick={clickFollowButton}
+    <>
+      <Paper className={classes.root} elevation={4}>
+        <Typography variant="h6" className={classes.title}>
+          Profile
+        </Typography>
+        <List dense>
+          <ListItem>
+            <ListItemAvatar>
+              <Avatar src={photoUrl} className={classes.bigAvatar} />
+            </ListItemAvatar>
+            <ListItemText
+              primary={values.user.name}
+              secondary={values.user.email}
             />
-          )}
-        </ListItem>
-        <Divider />
-        <ListItem>
-          <ListItemText
-            primary={values.user.about}
-            secondary={
-              "Joined: " + new Date(values.user.created).toDateString()
-            }
-          />
-        </ListItem>
-      </List>
-    </Paper>
+            {isAuthenticated().user &&
+            isAuthenticated().user._id === values.user._id ? (
+              <ListItemSecondaryAction>
+                <Link to={"/user/edit/" + values.user._id}>
+                  <IconButton aria-label="Edit" color="primary">
+                    <Edit />
+                  </IconButton>
+                </Link>
+                <DeleteUser userId={values.user._id} />
+              </ListItemSecondaryAction>
+            ) : (
+              <FollowButton
+                following={values.following}
+                onButtonClick={clickFollowButton}
+              />
+            )}
+          </ListItem>
+          <Divider />
+          <ListItem>
+            <ListItemText
+              primary={values.user.about}
+              secondary={
+                "Joined: " + new Date(values.user.created).toDateString()
+              }
+            />
+          </ListItem>
+        </List>
+      </Paper>
+
+      <FollowGrid people={values.user.followers} />
+      <FollowGrid people={values.user.following} />
+    </>
   );
 };
 
