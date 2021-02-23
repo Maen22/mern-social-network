@@ -18,7 +18,11 @@ router
 
 router
   .route("/api/users/unfollow")
-  .put(authCtrl.requireSign, userCtrl.removeFollowing, userCtrl.removeFollower);
+  .put(
+    authCtrl.requireSignin,
+    userCtrl.removeFollowing,
+    userCtrl.removeFollower
+  );
 
 router
   .route("/api/users/:userId")

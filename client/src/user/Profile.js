@@ -42,7 +42,7 @@ const Profile = ({ match }) => {
   const classes = useStyles();
 
   const [values, setValues] = useState({
-    user: {},
+    user: { following: [], followers: [] },
     following: false,
     redirectToSignin: false,
   });
@@ -58,6 +58,7 @@ const Profile = ({ match }) => {
         setValues({ ...values, redirectToSignin: true });
       } else {
         let following = checkFollow(data);
+        console.log(data);
         setValues({ ...values, user: data, following });
       }
     });

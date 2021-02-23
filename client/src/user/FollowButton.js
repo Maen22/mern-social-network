@@ -18,7 +18,7 @@ const FollowButton = (props) => {
           Unfollow
         </Button>
       ) : (
-        <Button variant="contained" color="promary" onClick={followClick}>
+        <Button variant="contained" color="primary" onClick={followClick}>
           Follow
         </Button>
       )}
