@@ -221,4 +221,5 @@ export default {
   addFollower,
   removeFollowing,
   removeFollower,
+  findpeople,
 };
