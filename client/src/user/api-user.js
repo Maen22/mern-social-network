@@ -88,7 +88,7 @@ const follow = async (params, credentials, followId) => {
   try {
     let response = await fetch("http://localhost:3001/api/users/follow", {
       method: "PUT",
-      header: {
+      headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
         Authorization: "Bearer " + credentials.token,
@@ -105,7 +105,7 @@ const unfollow = async (params, credentials, unfollowId) => {
   try {
     let response = await fetch("http://localhost:3001/api/users/unfollow", {
       method: "PUT",
-      header: {
+      headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
         Authorization: "Bearer " + credentials.token,

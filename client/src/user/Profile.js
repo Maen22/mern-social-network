@@ -18,7 +18,7 @@ import {
 import { Edit } from "@material-ui/icons";
 import DeleteUser from "./DeleteUser";
 import FollowButton from "./FollowButton";
-import FollowGrid from "./FollowGrid";
+import ProfileTabs from "./ProfileTabs";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -46,6 +46,8 @@ const Profile = ({ match }) => {
     following: false,
     redirectToSignin: false,
   });
+
+  const [posts, setPosts] = useState([]);
 
   const jwt = isAuthenticated();
 
@@ -80,10 +82,18 @@ const Profile = ({ match }) => {
     callApi(match.params, jwt, values.user._id).then((data) => {
       if (data.error) {
         setValues({ ...values, error: data.error });
+        console.log(data);
       } else {
         setValues({ ...values, user: data, following: !values.following });
       }
     });
+  };
+
+  const removePost = (post) => {
+    const updatedPosts = posts;
+    const index = updatedPosts.indexOf(post);
+    updatedPosts.splice(index, 1);
+    setPosts(updatedPosts);
   };
 
   const photoUrl = values.user._id
@@ -99,52 +109,52 @@ const Profile = ({ match }) => {
   }
 
   return (
-    <>
-      <Paper className={classes.root} elevation={4}>
-        <Typography variant="h6" className={classes.title}>
-          Profile
-        </Typography>
-        <List dense>
-          <ListItem>
-            <ListItemAvatar>
-              <Avatar src={photoUrl} className={classes.bigAvatar} />
-            </ListItemAvatar>
-            <ListItemText
-              primary={values.user.name}
-              secondary={values.user.email}
+    <Paper className={classes.root} elevation={4}>
+      <Typography variant="h6" className={classes.title}>
+        Profile
+      </Typography>
+      <List dense>
+        <ListItem>
+          <ListItemAvatar>
+            <Avatar src={photoUrl} className={classes.bigAvatar} />
+          </ListItemAvatar>
+          <ListItemText
+            primary={values.user.name}
+            secondary={values.user.email}
+          />
+          {isAuthenticated().user &&
+          isAuthenticated().user._id === values.user._id ? (
+            <ListItemSecondaryAction>
+              <Link to={"/user/edit/" + values.user._id}>
+                <IconButton aria-label="Edit" color="primary">
+                  <Edit />
+                </IconButton>
+              </Link>
+              <DeleteUser userId={values.user._id} />
+            </ListItemSecondaryAction>
+          ) : (
+            <FollowButton
+              following={values.following}
+              onButtonClick={clickFollowButton}
             />
-            {isAuthenticated().user &&
-            isAuthenticated().user._id === values.user._id ? (
-              <ListItemSecondaryAction>
-                <Link to={"/user/edit/" + values.user._id}>
-                  <IconButton aria-label="Edit" color="primary">
-                    <Edit />
-                  </IconButton>
-                </Link>
-                <DeleteUser userId={values.user._id} />
-              </ListItemSecondaryAction>
-            ) : (
-              <FollowButton
-                following={values.following}
-                onButtonClick={clickFollowButton}
-              />
-            )}
-          </ListItem>
-          <Divider />
-          <ListItem>
-            <ListItemText
-              primary={values.user.about}
-              secondary={
-                "Joined: " + new Date(values.user.created).toDateString()
-              }
-            />
-          </ListItem>
-        </List>
-      </Paper>
-
-      <FollowGrid people={values.user.followers} />
-      <FollowGrid people={values.user.following} />
-    </>
+          )}
+        </ListItem>
+        <Divider />
+        <ListItem>
+          <ListItemText
+            primary={values.user.about}
+            secondary={
+              "Joined: " + new Date(values.user.created).toDateString()
+            }
+          />
+        </ListItem>
+      </List>
+      <ProfileTabs
+        user={values.user}
+        posts={posts}
+        removePostUpdate={removePost}
+      />
+    </Paper>
   );
 };
 
